@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Gamer do João Pedro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #0a0e27;
+            color: #f0f0f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== HOME PAGE ===== */
+        .home-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #0a0e27 0%, #0f172a 40%, #1a1040 70%, #0a0e27 100%);
+            z-index: 0;
+        }
+
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background:
+                linear-gradient(90deg, rgba(0, 229, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(0, 229, 255, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            perspective: 200px;
+            transform: perspective(300px) rotateX(60deg);
+            transform-origin: bottom;
+            mask-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, rgba(255, 0, 110, 0.08), transparent 60%);
+        }
+
+        .home-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .logo-container {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 1.5rem;
+            background: rgba(0, 229, 255, 0.08);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.15); }
+            50% { box-shadow: 0 0 35px rgba(0, 229, 255, 0.3); }
+        }
+
+        .title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+            color: #00e5ff;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: #ffd700;
+            letter-spacing: 3px;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        .divider {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.4), transparent);
+            margin: 0 auto 1.5rem;
+        }
+
+        .home-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            max-width: 380px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .quiz-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            max-width: 560px;
+            width: 100%;
+        }
+
+        .quiz-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            transition: background 0.3s ease;
+        }
+
+        .quiz-card:hover::before {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.3), transparent);
+        }
+
+        .quiz-card.card-cyan:hover {
+            border-color: rgba(0, 229, 255, 0.4);
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .quiz-card.card-magenta:hover {
+            border-color: rgba(255, 0, 110, 0.4);
+            box-shadow: 0 0 25px rgba(255, 0, 110, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .card-icon.cyan {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .card-icon.magenta {
+            background: rgba(255, 0, 110, 0.1);
+            border: 1px solid rgba(255, 0, 110, 0.2);
+        }
+
+        .card-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .card-title.cyan { color: #00e5ff; }
+        .card-title.magenta { color: #ff006e; }
+
+        .card-desc {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-questions {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.7rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .card-play {
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .card-play.cyan { color: rgba(0, 229, 255, 0.5); }
+        .card-play.magenta { color: rgba(255, 0, 110, 0.5); }
+
+        .home-footer {
+            margin-top: 2.5rem;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* ===== QUIZ PAGE ===== */
+        .quiz-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 1rem;
+            position: relative;
+        }
+
+        .quiz-grid-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(0, 229, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        .quiz-grid-bg.magenta-bg {
+            background:
+                linear-gradient(rgba(255, 0, 110, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 110, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .quiz-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.7rem;
+            font-family: 'Press Start 2P', cursive;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .quiz-page-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+        }
+
+        .quiz-page-title.cyan { color: #00e5ff; text-shadow: 0 0 8px rgba(0, 229, 255, 0.4); }
+        .quiz-page-title.magenta { color: #ff006e; text-shadow: 0 0 8px rgba(255, 0, 110, 0.4); }
+
+        /* Progress */
+        .progress-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .progress-label span {
+            color: #f0f0f0;
+            font-weight: 700;
+        }
+
+        .score-label {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .score-label.cyan { color: #00e5ff; }
+        .score-label.magenta { color: #ff006e; }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease-out;
+        }
+
+        .progress-fill.cyan {
+            background: linear-gradient(90deg, #00e5ff, #00b8d4, #00e5ff);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+        }
+
+        .progress-fill.magenta {
+            background: linear-gradient(90deg, #ff006e, #e040fb, #ff006e);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Quiz Card */
+        .quiz-card-container {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border-radius: 14px;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-card-container.cyan {
+            border: 1px solid rgba(0, 229, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.08);
+        }
+
+        .quiz-card-container.magenta {
+            border: 1px solid rgba(255, 0, 110, 0.15);
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.08);
+        }
+
+        .quiz-card-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+
+        .quiz-card-container.cyan::before {
+            background: linear-gradient(90deg, transparent, #00e5ff, transparent);
+        }
+
+        .quiz-card-container.magenta::before {
+            background: linear-gradient(90deg, transparent, #ff006e, transparent);
+        }
+
+        .question-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .question-badge.cyan {
+            background: rgba(0, 229, 255, 0.08);
+            color: #00e5ff;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .question-badge.magenta {
+            background: rgba(255, 0, 110, 0.08);
+            color: #ff006e;
+            border: 1px solid rgba(255, 0, 110, 0.2);
+        }
+
+        .question-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.65rem;
+            line-height: 2;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-text.cyan { color: #00e5ff; }
+        .question-text.magenta { color: #ff006e; }
+
+        /* Answer Buttons */
+        .answers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .answer-btn {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            color: #f0f0f0;
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            transform: translateX(3px);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .answer-btn:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .answer-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .answer-letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .answer-letter.cyan {
+            background: rgba(0, 229, 255, 0.1);
+            color: rgba(0, 229, 255, 0.7);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .answer-letter.magenta {
+            background: rgba(255, 0, 110, 0.1);
+            color: rgba(255, 0, 110, 0.7);
+            border: 1px solid rgba(255, 0, 110, 0.2);
+        }
+
+        .answer-btn.correct {
+            background: rgba(34, 197, 94, 0.12);
+            border-color: rgba(34, 197, 94, 0.5);
+            color: #4ade80;
+        }
+
+        .answer-btn.correct .answer-letter {
+            background: #22c55e;
+            color: white;
+            border-color: #22c55e;
+        }
+
+        .answer-btn.wrong {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #f87171;
+        }
+
+        .answer-btn.wrong .answer-letter {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .answer-btn.disabled {
+            opacity: 0.35;
+        }
+
+        /* Result Page */
+        .result-container {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border-radius: 14px;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-container.cyan {
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .result-container.magenta {
+            border: 1px solid rgba(255, 0, 110, 0.2);
+        }
+
+        .result-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: bounce-in 0.6s ease-out;
+        }
+
+        @keyframes bounce-in {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            60% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .result-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .result-title.cyan { color: #00e5ff; }
+        .result-title.magenta { color: #ff006e; }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            margin-bottom: 0.25rem;
+        }
+
+        .result-score span {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .result-percent-bar {
+            width: 100%;
+            max-width: 280px;
+            margin: 1rem auto;
+        }
+
+        .result-percent-track {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .result-percent-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1s ease-out;
+        }
+
+        .result-percent-fill.high { background: linear-gradient(90deg, #4ade80, #22c55e); }
+        .result-percent-fill.mid { background: linear-gradient(90deg, #facc15, #f59e0b); }
+        .result-percent-fill.low { background: linear-gradient(90deg, #f87171, #ef4444); }
+
+        .result-percent-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 0.4rem;
+        }
+
+        .result-msg {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 1rem 0 1.5rem;
+            line-height: 1.5;
+        }
+
+        .result-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .result-btn {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 10px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .result-btn.primary-cyan {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #00e5ff;
+        }
+
+        .result-btn.primary-cyan:hover {
+            background: rgba(0, 229, 255, 0.2);
+        }
+
+        .result-btn.primary-magenta {
+            background: rgba(255, 0, 110, 0.1);
+            border: 1px solid rgba(255, 0, 110, 0.3);
+            color: #ff006e;
+        }
+
+        .result-btn.primary-magenta:hover {
+            background: rgba(255, 0, 110, 0.2);
+        }
+
+        .result-btn.secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .result-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 0.75rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 100;
+            transition: transform 0.3s ease-out;
+            backdrop-filter: blur(8px);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+        }
+
+        .toast.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        /* Fade transition */
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.25s ease-out;
+        }
+
+        .fade-exit {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-exit-active {
+            opacity: 0;
+            transform: translateY(-15px);
+            transition: all 0.2s ease-in;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .quiz-cards {
+                grid-template-columns: 1fr;
+            }
+            .title { font-size: 1.2rem; }
+            .quiz-card-container { padding: 1.25rem; }
+            .question-text { font-size: 0.55rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- HOME PAGE -->
+    <div id="home-page" class="home-page">
+        <div class="hero-bg"></div>
+        <div class="home-content">
+            <div class="logo-container">
+                <svg class="logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="8" y="20" width="48" height="28" rx="8" fill="#00e5ff" opacity="0.15" stroke="#00e5ff" stroke-width="1.5"/>
+                    <rect x="14" y="24" width="12" height="8" rx="2" fill="#ff006e" opacity="0.8"/>
+                    <rect x="20" y="26" width="2" height="4" rx="1" fill="white"/>
+                    <rect x="18" y="28" width="6" height="2" rx="1" fill="white"/>
+                    <circle cx="42" cy="28" r="2.5" fill="#00e5ff"/>
+                    <circle cx="48" cy="28" r="2.5" fill="#00e5ff"/>
+                    <circle cx="42" cy="34" r="2.5" fill="#00e5ff"/>
+                    <circle cx="48" cy="34" r="2.5" fill="#00e5ff"/>
+                    <circle cx="20" cy="40" r="5" fill="#00e5ff" opacity="0.3" stroke="#00e5ff" stroke-width="1"/>
+                    <circle cx="42" cy="40" r="5" fill="#00e5ff" opacity="0.3" stroke="#00e5ff" stroke-width="1"/>
+                </svg>
+            </div>
+
+            <h1 class="title">QUIZ GAMER</h1>
+            <p class="subtitle">DO JOÃO PEDRO</p>
+
+            <div class="divider"></div>
+
+            <p class="home-desc">Teste seus conhecimentos sobre jogos e descubra se você conhece o João Pedro!</p>
+
+            <div class="quiz-cards">
+                <div class="quiz-card card-cyan" onclick="startQuiz('jogos')">
+                    <div class="card-header">
+                        <div class="card-icon cyan">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="6" width="20" height="12" rx="3"/>
+                                <circle cx="8" cy="12" r="2"/>
+                                <circle cx="16" cy="10" r="1"/>
+                                <circle cx="16" cy="14" r="1"/>
+                                <circle cx="18" cy="12" r="1"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="card-title cyan">QUIZ DE JOGOS</div>
+                        </div>
+                    </div>
+                    <p class="card-desc">Minecraft, SEGA, Fortnite e muito mais! Prove que você é um verdadeiro gamer.</p>
+                    <div class="card-footer">
+                        <div class="card-questions">&#9733; 8 Perguntas</div>
+                        <div class="card-play cyan">&#9889; Jogar</div>
+                    </div>
+                </div>
+
+                <div class="quiz-card card-magenta" onclick="startQuiz('pessoal')">
+                    <div class="card-header">
+                        <div class="card-icon magenta">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff006e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a8 8 0 0 0-8 8c0 3.5 2.5 6.5 6 8v2h4v-2c3.5-1.5 6-4.5 6-8a8 8 0 0 0-8-8z"/>
+                                <path d="M12 6v4"/>
+                                <path d="M9 10h6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="card-title magenta">QUIZ DO JOÃO PEDRO</div>
+                        </div>
+                    </div>
+                    <p class="card-desc">Quanto você sabe sobre o João Pedro? Time, estado, jogo favorito...</p>
+                    <div class="card-footer">
+                        <div class="card-questions">&#127942; 8 Perguntas</div>
+                        <div class="card-play magenta">&#9889; Jogar</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="home-footer">Feito com &#10084; por João Pedro</p>
+        </div>
+    </div>
+
+    <!-- QUIZ PAGE -->
+    <div id="quiz-page" class="quiz-page" style="display: none;">
+        <div id="quiz-grid-bg" class="quiz-grid-bg"></div>
+        <div class="quiz-content">
+            <div class="quiz-header">
+                <button class="back-btn" onclick="goHome()">&#8592; VOLTAR</button>
+                <div id="quiz-page-title" class="quiz-page-title"></div>
+            </div>
+
+            <div id="progress-section" class="progress-section">
+                <div class="progress-info">
+                    <div class="progress-label">Pergunta <span id="current-q">1</span> de <span id="total-q">8</span></div>
+                    <div id="score-label" class="score-label">
+                        <span>&#9832;</span>
+                        <span id="score-count">0</span> acerto<span id="score-plural">s</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="quiz-area"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== DATA =====
+        const quizJogos = [
+            {
+                question: "Qual é o bloco mais comum ao gerar um mundo no Minecraft?",
+                answers: [
+                    { text: "Pedra / Grama", correct: true },
+                    { text: "Bloco de Diamante", correct: false },
+                    { text: "Obsidiana", correct: false },
+                    { text: "Madeira Refinada", correct: false }
+                ]
+            },
+            {
+                question: "Qual o nome do famoso mascote azul da SEGA?",
+                answers: [
+                    { text: "Mario", correct: false },
+                    { text: "Sonic", correct: true },
+                    { text: "Crash", correct: false },
+                    { text: "Pikachu", correct: false }
+                ]
+            },
+            {
+                question: "Em qual jogo os jogadores saltam de um ônibus voador?",
+                answers: [
+                    { text: "Free Fire", correct: false },
+                    { text: "PUBG", correct: false },
+                    { text: "Fortnite", correct: true },
+                    { text: "Roblox", correct: false }
+                ]
+            },
+            {
+                question: "Qual jogo tem o personagem chamado 'Steve' como principal?",
+                answers: [
+                    { text: "Terraria", correct: false },
+                    { text: "Minecraft", correct: true },
+                    { text: "Stardew Valley", correct: false },
+                    { text: "Roblox", correct: false }
+                ]
+            },
+            {
+                question: "Qual é o nome do inimigo principal de Mario nos jogos?",
+                answers: [
+                    { text: "Ganon", correct: false },
+                    { text: "Bowser", correct: true },
+                    { text: "Dr. Eggman", correct: false },
+                    { text: "Sephiroth", correct: false }
+                ]
+            },
+            {
+                question: "Em que ano foi lançado o PlayStation original?",
+                answers: [
+                    { text: "1990", correct: false },
+                    { text: "1994", correct: true },
+                    { text: "1998", correct: false },
+                    { text: "2000", correct: false }
+                ]
+            },
+            {
+                question: "Qual jogo mobile de tiro battle royale é muito popular no Brasil?",
+                answers: [
+                    { text: "Call of Duty Mobile", correct: false },
+                    { text: "Free Fire", correct: true },
+                    { text: "PUBG Mobile", correct: false },
+                    { text: "Apex Legends", correct: false }
+                ]
+            },
+            {
+                question: "Qual é o maior jogo de robôs gigantes lutando no Japão?",
+                answers: [
+                    { text: "Dragon Ball", correct: false },
+                    { text: "Gundam", correct: true },
+                    { text: "Pokémon", correct: false },
+                    { text: "Digimon", correct: false }
+                ]
+            }
+        ];
+
+        const quizPessoal = [
+            {
+                question: "Qual time o João Pedro torce?",
+                answers: [
+                    { text: "Corinthians", correct: false },
+                    { text: "Flamengo", correct: true },
+                    { text: "Palmeiras", correct: false },
+                    { text: "São Paulo", correct: false }
+                ]
+            },
+            {
+                question: "De qual estado ele é?",
+                answers: [
+                    { text: "Bahia", correct: false },
+                    { text: "Goiás", correct: false },
+                    { text: "Rio Grande do Norte", correct: true },
+                    { text: "Ceará", correct: false }
+                ]
+            },
+            {
+                question: "Qual jogo ele mais gosta de jogar?",
+                answers: [
+                    { text: "Free Fire", correct: true },
+                    { text: "Minecraft", correct: false },
+                    { text: "Roblox", correct: false },
+                    { text: "Fortnite", correct: false }
+                ]
+            },
+            {
+                question: "Qual cor o João Pedro mais gosta?",
+                answers: [
+                    { text: "Azul", correct: false },
+                    { text: "Vermelho", correct: false },
+                    { text: "Preto", correct: true },
+                    { text: "Verde", correct: false }
+                ]
+            },
+            {
+                question: "O João Pedro prefere jogar no celular ou no PC?",
+                answers: [
+                    { text: "Celular", correct: true },
+                    { text: "PC", correct: false },
+                    { text: "Consoles", correct: false },
+                    { text: "Tablet", correct: false }
+                ]
+            },
+            {
+                question: "Qual gênero de filme o João Pedro prefere?",
+                answers: [
+                    { text: "Comédia", correct: false },
+                    { text: "Terror", correct: false },
+                    { text: "Ação", correct: true },
+                    { text: "Romance", correct: false }
+                ]
+            },
+            {
+                question: "Qual comida o João Pedro mais gosta?",
+                answers: [
+                    { text: "Pizza", correct: true },
+                    { text: "Hambúrguer", correct: false },
+                    { text: "Taco", correct: false },
+                    { text: "Sushi", correct: false }
+                ]
+            },
+            {
+                question: "Qual rede social o João Pedro mais usa?",
+                answers: [
+                    { text: "Twitter/X", correct: false },
+                    { text: "Instagram", correct: true },
+                    { text: "TikTok", correct: false },
+                    { text: "Facebook", correct: false }
+                ]
+            }
+        ];
+
+        // ===== STATE =====
+        let currentType = '';
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let score = 0;
+        let answered = false;
+        let selectedAnswer = null;
+
+        // ===== FUNCTIONS =====
+        function shuffleArray(arr) {
+            const shuffled = [...arr];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function showToast(msg, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast ' + type + ' show';
+            setTimeout(() => { toast.className = 'toast ' + type; }, 2500);
+        }
+
+        function startQuiz(type) {
+            currentType = type;
+            currentQuestions = type === 'jogos' ? shuffleArray(quizJogos) : shuffleArray(quizPessoal);
+            currentIndex = 0;
+            score = 0;
+            answered = false;
+            selectedAnswer = null;
+
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('quiz-page').style.display = 'flex';
+
+            const bgColor = document.getElementById('quiz-grid-bg');
+            const title = document.getElementById('quiz-page-title');
+            const scoreLabel = document.getElementById('score-label');
+            const progressFill = document.getElementById('progress-fill');
+
+            if (type === 'jogos') {
+                bgColor.className = 'quiz-grid-bg';
+                title.className = 'quiz-page-title cyan';
+                title.textContent = '\uD83C\uDFAE QUIZ DE JOGOS';
+                scoreLabel.className = 'score-label cyan';
+                progressFill.className = 'progress-fill cyan';
+            } else {
+                bgColor.className = 'quiz-grid-bg magenta-bg';
+                title.className = 'quiz-page-title magenta';
+                title.textContent = '\uD83E\uDDE0 QUIZ DO JOÃO PEDRO';
+                scoreLabel.className = 'score-label magenta';
+                progressFill.className = 'progress-fill magenta';
+            }
+
+            document.getElementById('total-q').textContent = currentQuestions.length;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            selectedAnswer = null;
+            const q = currentQuestions[currentIndex];
+            const isCyan = currentType === 'jogos';
+            const colorClass = isCyan ? 'cyan' : 'magenta';
+
+            document.getElementById('current-q').textContent = currentIndex + 1;
+            document.getElementById('score-count').textContent = score;
+            document.getElementById('score-plural').textContent = score !== 1 ? 's' : '';
+
+            const progress = (currentIndex / currentQuestions.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+
+            const letters = ['A', 'B', 'C', 'D'];
+
+            let html = `
+                <div class="quiz-card-container ${colorClass} fade-enter">
+                    <div class="question-badge ${colorClass}">&#8982; Pergunta ${currentIndex + 1}</div>
+                    <h2 class="question-text ${colorClass}">${q.question}</h2>
+                    <div class="answers-list">
+            `;
+
+            q.answers.forEach((answer, i) => {
+                html += `
+                    <button class="answer-btn" data-index="${i}" onclick="handleAnswer(${i})">
+                        <span class="answer-letter ${colorClass}">${letters[i]}</span>
+                        <span>${answer.text}</span>
+                    </button>
+                `;
+            });
+
+            html += `</div></div>`;
+
+            const quizArea = document.getElementById('quiz-area');
+            quizArea.innerHTML = html;
+
+            // Trigger animation
+            requestAnimationFrame(() => {
+                const container = quizArea.querySelector('.quiz-card-container');
+                if (container) {
+                    container.classList.add('fade-enter-active');
+                    container.classList.remove('fade-enter');
+                }
+            });
+        }
+
+        function handleAnswer(index) {
+            if (answered) return;
+            answered = true;
+            selectedAnswer = index;
+
+            const q = currentQuestions[currentIndex];
+            const isCorrect = q.answers[index].correct;
+            const colorClass = currentType === 'jogos' ? 'cyan' : 'magenta';
+
+            if (isCorrect) {
+                score++;
+                showToast('Correto! Muito bem! \uD83C\uDFAF', 'success');
+            } else {
+                const correctText = q.answers.find(a => a.correct).text;
+                showToast('Errou! Resposta: ' + correctText, 'error');
+            }
+
+            // Update buttons
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach((btn, i) => {
+                btn.disabled = true;
+                if (q.answers[i].correct) {
+                    btn.classList.add('correct');
+                    btn.querySelector('.answer-letter').textContent = '\u2713';
+                    btn.querySelector('.answer-letter').className = 'answer-letter';
+                } else if (i === index && !q.answers[i].correct) {
+                    btn.classList.add('wrong');
+                    btn.querySelector('.answer-letter').textContent = '\u2717';
+                    btn.querySelector('.answer-letter').className = 'answer-letter';
+                } else {
+                    btn.classList.add('disabled');
+                }
+            });
+
+            // Update score
+            document.getElementById('score-count').textContent = score;
+            document.getElementById('score-plural').textContent = score !== 1 ? 's' : '';
+
+            // Auto-advance
+            setTimeout(() => {
+                if (currentIndex + 1 < currentQuestions.length) {
+                    currentIndex++;
+                    showQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1500);
+        }
+
+        function showResult() {
+            const total = currentQuestions.length;
+            const percentage = Math.round((score / total) * 100);
+            const isCyan = currentType === 'jogos';
+            const colorClass = isCyan ? 'cyan' : 'magenta';
+
+            document.getElementById('progress-section').style.display = 'none';
+
+            let emoji, title, msg;
+            if (percentage === 100) { emoji = '\uD83C\uDFC6'; title = 'PERFEITO!'; msg = 'Incrível! Você acertou todas! É um verdadeiro craque!'; }
+            else if (percentage >= 75) { emoji = '\uD83D\uDD25'; title = 'EXCELENTE!'; msg = 'Quase perfeito! Você conhece muito bem!'; }
+            else if (percentage >= 50) { emoji = '\uD83C\uDFAF'; title = 'BOM TRABALHO!'; msg = 'Mais da metade! Continue praticando.'; }
+            else if (percentage >= 25) { emoji = '\uD83D\uDCAA'; title = 'QUASE LÁ!'; msg = 'Não desista! Tente de novo para melhorar.'; }
+            else { emoji = '\uD83C\uDFAE'; title = 'VAMOS TREINAR!'; msg = 'Jogue de novo para melhorar sua pontuação!'; }
+
+            let fillClass = 'high';
+            if (percentage < 50) fillClass = 'low';
+            else if (percentage < 75) fillClass = 'mid';
+
+            const html = `
+                <div class="result-container ${colorClass} fade-enter">
+                    <div class="result-emoji">${emoji}</div>
+                    <h2 class="result-title ${colorClass}">${title}</h2>
+                    <div class="result-score">${score} <span>/ ${total}</span></div>
+                    <div class="result-percent-bar">
+                        <div class="result-percent-track">
+                            <div class="result-percent-fill ${fillClass}" style="width: 0%" id="result-bar-fill"></div>
+                        </div>
+                        <p class="result-percent-label">${percentage}% de acerto</p>
+                    </div>
+                    <p class="result-msg">${msg}</p>
+                    <div class="result-buttons">
+                        <button class="result-btn primary-${colorClass}" onclick="restartQuiz()">
+                            \u21BB JOGAR DE NOVO
+                        </button>
+                        <button class="result-btn secondary" onclick="goHome()">
+                            \u2302 MENU PRINCIPAL
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const quizArea = document.getElementById('quiz-area');
+            quizArea.innerHTML = html;
+
+            requestAnimationFrame(() => {
+                const container = quizArea.querySelector('.result-container');
+                if (container) {
+                    container.classList.add('fade-enter-active');
+                    container.classList.remove('fade-enter');
+                }
+                // Animate bar
+                setTimeout(() => {
+                    document.getElementById('result-bar-fill').style.width = percentage + '%';
+                }, 400);
+            });
+        }
+
+        function restartQuiz() {
+            document.getElementById('progress-section').style.display = 'block';
+            startQuiz(currentType);
+        }
+
+        function goHome() {
+            document.getElementById('quiz-page').style.display = 'none';
+            document.getElementById('home-page').style.display = 'flex';
+            document.getElementById('progress-section').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
